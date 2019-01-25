@@ -1,26 +1,50 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
+import Signup from "./views/Signup.vue";
+import Login from "./views/Login.vue";
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: "history",
-  base: process.env.BASE_URL,
+  // base: process.env.BASE_URL,
+
   routes: [
+    {
+      path: "*",
+      redirect: "/"
+    },
     {
       path: "/",
       name: "home",
-      component: Home
+      component: Home,
+      meta: {
+        title: "Royal Brothers"
+      }
     },
     {
-      path: "/about",
-      name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/About.vue")
+      path: "/signup",
+      name: "signup",
+      component: Signup,
+      meta: {
+        title: "Sign Up | Royal Brothers"
+      }
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: Login,
+      meta: {
+        title: "Log In | Royal Brothers"
+      }
     }
   ]
 });
+//  Change Page Title based on route
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title;
+  next();
+});
+
+export default router;
